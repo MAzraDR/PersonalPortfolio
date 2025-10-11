@@ -7,9 +7,9 @@
   --font-felipa: "Felipa", sans-serif;
 }
 
-/* body {
-  overflow-y: hidden;
-} */
+body {
+  overflow-y: auto;
+}
 
 ::-webkit-scrollbar {
   display: none;
