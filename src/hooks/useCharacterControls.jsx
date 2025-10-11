@@ -9,7 +9,7 @@ export default function useCharacterControls({
 }) {
 	useEffect(() => {
 		const handleKeyDown = (e) => {
-			const step = 10;
+			const step = 7;
 			let newX = x;
 
 			switch (e.key.toLowerCase()) {

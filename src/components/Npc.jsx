@@ -1,0 +1,52 @@
+import { useEffect, useState } from "react";
+
+export default function Npc({
+	name,
+	sprite,
+	xRatio,
+	mapWidth,
+	mcX,
+	onInteract,
+}) {
+	const npcX = xRatio * mapWidth; // posisi NPC berdasarkan persentase
+	const distance = Math.abs(mcX - npcX);
+	const canInteract = distance < 100;
+	const mcIsLeft = mcX > npcX;
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === "e" || e.key === "E") {
+				if (canInteract) onInteract(name);
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [canInteract, distance, name, onInteract]);
+
+	return (
+		<div
+			className="absolute bottom-5 transition-transform duration-100"
+			style={{
+				left: `${npcX}px`,
+				transform: mcIsLeft ? "scaleX(1)" : "scaleX(-1)",
+			}}>
+			<img
+				src={sprite}
+				alt={name}
+				className={`w-32 h-32 object-contain ${
+					canInteract ? "brightness-110 scale-105" : ""
+				}`}
+			/>
+			{canInteract && (
+				<div
+					className="absolute -top-8 left-1/2 -translate-x-1/2 text-white text-sm bg-black/70 px-2 py-1 rounded"
+					style={{
+						transform: mcIsLeft ? "scaleX(1)" : "scaleX(-1)",
+					}}>
+					Press E to talk
+				</div>
+			)}
+		</div>
+	);
+}

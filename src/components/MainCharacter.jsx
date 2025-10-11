@@ -1,21 +1,16 @@
-import idleGif from "../assets/characters/bearded-idle.gif";
-import walkGif from "../assets/characters/bearded-walk.gif";
-import { useState, useEffect, useRef } from "react";
-import useMapWidth from "../hooks/useMapWidth";
+import { useState, useRef } from "react";
 import useCharacterControls from "../hooks/useCharacterControls";
 import useCameraFollow from "../hooks/useCameraFollow";
+import mainCharIdleGif from "../assets/characters/hat-man-idle.gif";
+import mainCharWalkGif from "../assets/characters/hat-man-walk.gif";
 
-const Character = () => {
-	const mapWidth = useMapWidth();
-	const [x, setX] = useState(100);
+const MainCharacter = ({ x, setX, mapWidth }) => {
 	const [direction, setDirection] = useState("right");
 	const [action, setAction] = useState("idle");
 	const cameraX = useRef(0);
-
-	// 🕹️ Keyboard movement logic
+	
 	useCharacterControls({ x, setX, setDirection, setAction, mapWidth });
-
-	// 🎥 Smooth camera follow
+	
 	useCameraFollow({ x, cameraX });
 
 	return (
@@ -26,12 +21,12 @@ const Character = () => {
 				transform: direction === "left" ? "scaleX(-1)" : "scaleX(1)",
 			}}>
 			<img
-				src={action === "walk" ? walkGif : idleGif}
-				alt="character"
+				src={action === "walk" ? mainCharWalkGif : mainCharIdleGif}
+				alt="main character"
 				className="w-32 h-32 object-contain"
 			/>
 		</div>
 	);
 };
 
-export default Character;
+export default MainCharacter;
