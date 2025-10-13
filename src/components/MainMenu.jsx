@@ -27,7 +27,7 @@ export default function MainMenu({ handleScroll }) {
 					<img
 						src="/src/assets/BookCoverLeft.png"
 						alt="Book Cover Left"
-						className="object-contain h-auto w-[42.5vw] md:w-[35vw] lg:w-[25vw]"
+						className="object-contain h-auto w-[42.5vw] md:w-[35vw] lg:w-[25vw] shadow-2xl"
 					/>
 					<motion.div className="absolute top-1/7 md:top-1/5 left-4 lg:left-8 z-20">
 						{bookTitle.map((char, i) => (
