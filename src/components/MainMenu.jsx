@@ -8,15 +8,11 @@ export default function MainMenu({ handleScroll }) {
 
 	const handleClickMenu = () => {
 		setIsOpen(true);
-		// Scroll after menu opens
-		setTimeout(() => {
-			handleScroll();
-		}, 500);
 	};
 
 	return (
 		<motion.div
-			className="flex justify-center items-center w-full h-screen bg-[url('/src/assets/menuBg.png')] bg-cover bg-center overflow-ahidden"
+			className="flex justify-center items-center w-full h-screen bg-[url('/src/assets/menuBg.png')] bg-cover bg-center"
 			onClick={handleClickMenu}>
 			<motion.div
 				className="relative origin-right z-20 brightness-90 flex justify-end items-center"
