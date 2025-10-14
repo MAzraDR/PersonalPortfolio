@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useEffect } from "react";
+import { npcDialogues } from "./data/TextData";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -14,6 +15,7 @@ export default function App() {
 	const sectionRef = useRef(null);
 	const [inMainMenu, setInMainMenu] = useState(true);
 	const [mcX, setMcX] = useState(100);
+	const [isVisible, setIsVisible] = useState(false)
 	const mcXRef = useRef(mcX);
 
 	useEffect(() => {
@@ -30,28 +32,29 @@ export default function App() {
 		document.body.style.overflow = "hidden";
 	}, []);
 
-	const handleScrollToMain = () => {
-		document.body.style.overflowY = "auto";
-		setInMainMenu(false);
-
-		gsap.to(window, {
-			duration: 1.2,
-			scrollTo: sectionRef.current,
-			ease: "power2.inOut",
-			onComplete: () => {
-				document.body.style.overflow = "hidden";
-			},
-		});
+	const handleScrollToMain = (id) => {
+		if (id === "main") {
+			document.body.style.overflowY = "auto";
+			setInMainMenu(false);
+			gsap.to(window, {
+				duration: 1.2,
+				scrollTo: sectionRef.current,
+				ease: "power2.inOut",
+				onComplete: () => {
+					document.body.style.overflow = "hidden";
+				},
+			});
+		}
 	};
 
 	const handleClick = () => {
 		document.body.style.overflow = "auto";
-
+		setIsVisible(false)
 		gsap.to(".main-display", {
 			duration: 0.8,
 			opacity: 0,
 			ease: "power2.inOut",
-			onComplete:() => {
+			onComplete: () => {
 				const temp = { value: mcX };
 				gsap.to(temp, {
 					duration: 1,
@@ -61,9 +64,9 @@ export default function App() {
 						setMcX(temp.value);
 					},
 				});
-			}
+			},
 		});
-	
+
 		gsap.to(window, {
 			duration: 1,
 			scrollTo: { y: 0, autoKill: true },
@@ -77,7 +80,12 @@ export default function App() {
 	};
 
 	const handleInteract = (npcName) => {
-		alert(`You interacted with ${npcName}!`);
+		const npc = npcDialogues[npcName];
+		if (npc) {
+			npc.dialogue.map((item) => {
+				setIsVisible(true)
+			});
+		}
 	};
 
 	return (
@@ -97,6 +105,7 @@ export default function App() {
 					showButton={!inMainMenu}
 					mcX={mcX}
 					setMcX={setMcX}
+					isVisible={isVisible}
 				/>
 			</section>
 		</div>

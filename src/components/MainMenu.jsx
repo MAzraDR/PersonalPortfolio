@@ -81,11 +81,11 @@ export default function MainMenu({ handleScroll }) {
 						{Object.values(menuText).map((item) => (
 							<MenuButton
 								id={item.id}
-								key={item.title}
+								key={item.id}
 								href={item.href}
 								title={item.title}
 								subtitle={item.subTitle}
-								onClick={handleScroll}
+								onClick={() => handleScroll(item.id)}
 							/>
 						))}
 					</div>

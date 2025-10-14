@@ -1,9 +1,11 @@
 import Npc from "./Npc";
-import { npcData } from "../data/npcData";
+import { npcData } from "../data/TextData";
 import MainCharacter from "./MainCharacter";
 import Button from "./Button";
 import homeIcon from "../assets/HomeIcon.png";
-import { useState } from "react";
+import DialogueBox from "./DialogueBox";
+import { npcDialogues } from "../data/TextData";
+// import { motion } from "motion/react";
 
 export default function MainDisplay({
 	mapWidth,
@@ -12,10 +14,9 @@ export default function MainDisplay({
 	handleClick,
 	showButton,
 	mcX,
-	setMcX
+	setMcX,
+	isVisible
 }) {
-	
-
 	return (
 		<div
 			ref={sectionRef}
@@ -30,6 +31,10 @@ export default function MainDisplay({
 				/>
 			)}
 			<MainCharacter x={mcX} setX={setMcX} mapWidth={mapWidth} />
+
+			<DialogueBox
+				text={npcDialogues.Hector.dialogue[0].text} isVisible={isVisible}></DialogueBox>
+
 			{npcData.map((npc) => (
 				<Npc
 					key={npc.id}
