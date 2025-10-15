@@ -1,36 +1,44 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 
-export default function DialogueBox({ text, isVisible }) {
+export default function DialogueBox({
+	text = "",
+	speed = 30,
+	speaker,
+	isVisible,
+}) {
 	const [displayedText, setDisplayedText] = useState("");
-	let speed = 20;	
+	const intervalRef = useRef(null);
 
 	useEffect(() => {
-		if (isVisible) {
-			let i = 0;
-			setDisplayedText("");
+		if (!isVisible || !text) return;
 
-			const interval = setInterval(() => {
-				setDisplayedText((prev) => prev + text.charAt(i));
-				i++;
-				if (i >= text.length) clearInterval(interval);
-			}, speed);
+		setDisplayedText("");
+		let i = 0;
 
-			return () => clearInterval(interval);
-		}
-	}, [speed, text, isVisible]);
+		clearInterval(intervalRef.current);
+		intervalRef.current = setInterval(() => {
+			setDisplayedText((prev) => prev + text[i]);
+			i++;
+			if (i >= text.length) {
+				clearInterval(intervalRef.current);
+			}
+		}, speed);
+
+		return () => clearInterval(intervalRef.current);
+	}, [text, isVisible, speed]);
 
 	if (!isVisible) return null;
 
 	return (
-		<div className="w-screen flex justify-center px-4 relative top-30">
-			<motion.div
-				initial={{ opacity: 1, y: 10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 1, delay: 0 }}
-				className="bg-black/70 text-white text-lg px-4 py-6 rounded-2xl shadow-lg max-w-[50vw] w-fit text-center">
-				<p className="leading-relaxed">{displayedText}</p>
-			</motion.div>
-		</div>
+		<motion.div
+			initial={{ opacity: 1, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 1, delay: 0 }}
+			className="">
+			<h6 className="leading-relaxed font-bold">{speaker}</h6>
+			<hr />
+			<p className="leading-relaxed">{displayedText}</p>
+		</motion.div>
 	);
 }

@@ -26,8 +26,7 @@ export default function useCharacterControls({
 				default:
 					return;
 			}
-
-			// batas kanan sesuai mapWidth
+			
 			const maxRight = mapWidth - 128;
 			newX = Math.max(0, Math.min(newX, maxRight));
 			setX(newX);

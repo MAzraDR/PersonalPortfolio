@@ -18,9 +18,7 @@ export const npcData = [
 ];
 
 export const npcDialogues = {
-    "Hector": {
-        name: "Hector",
-        title: "The Keeper of Forgotten Truths",
+    "Hector": {       
         dialogue: [
             {
                 speaker: "Hector",
@@ -42,9 +40,7 @@ export const npcDialogues = {
         ],
     },
 
-    "Leylah": {
-        name: "Leylah",
-        title: "The Scribe of Whispers",
+    "Leylah": {      
         dialogue: [
             {
                 speaker: "Leylah",
@@ -66,9 +62,7 @@ export const npcDialogues = {
         ],
     },
 
-    "Louis": {
-        name: "Louis",
-        title: "The Hermit of Broken Vows",
+    "Louis": {    
         dialogue: [
             {
                 speaker: "Louis",
@@ -94,11 +88,3 @@ export const npcDialogues = {
         ],
     },
 };
-
-// Optional ambient/random lines for re-interaction
-export const ambientDialogues = [
-    "The wind hums with names long forgotten...",
-    "Every truth demands its sacrifice.",
-    "The Lord watches still, from between the folds of time.",
-    "Not all knowledge should be unearthed, traveler...",
-];

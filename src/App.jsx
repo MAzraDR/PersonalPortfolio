@@ -15,7 +15,6 @@ export default function App() {
 	const sectionRef = useRef(null);
 	const [inMainMenu, setInMainMenu] = useState(true);
 	const [mcX, setMcX] = useState(100);
-	const [isVisible, setIsVisible] = useState(false)
 	const mcXRef = useRef(mcX);
 
 	useEffect(() => {
@@ -48,8 +47,7 @@ export default function App() {
 	};
 
 	const handleClick = () => {
-		document.body.style.overflow = "auto";
-		setIsVisible(false)
+		document.body.style.overflow = "auto";		
 		gsap.to(".main-display", {
 			duration: 0.8,
 			opacity: 0,
@@ -77,16 +75,7 @@ export default function App() {
 				gsap.set(".main-display", { opacity: 1 });
 			},
 		});
-	};
-
-	const handleInteract = (npcName) => {
-		const npc = npcDialogues[npcName];
-		if (npc) {
-			npc.dialogue.map((item) => {
-				setIsVisible(true)
-			});
-		}
-	};
+	};	
 
 	return (
 		<div className="flex flex-col">
@@ -99,13 +88,11 @@ export default function App() {
 				className="h-screen main-display transition-opacity duration-700">
 				<MainDisplay
 					sectionRef={sectionRef}
-					mapWidth={mapWidth}
-					handleInteract={handleInteract}
+					mapWidth={mapWidth}					
 					handleClick={handleClick}
 					showButton={!inMainMenu}
 					mcX={mcX}
-					setMcX={setMcX}
-					isVisible={isVisible}
+					setMcX={setMcX}										
 				/>
 			</section>
 		</div>
