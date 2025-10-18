@@ -25,7 +25,7 @@ export const npcDialogues = {
                 text: "Ahh... a wanderer crosses the threshold once more. The scent of the outer world still clings to you. Tell me, traveler... what is it you seek beneath these ashen skies?",
             },
             {
-                speaker: "MC",
+                speaker: "Main Character",
                 text: "They say you once knew the Lord. I came to learn of him.",
             },
             {
@@ -47,7 +47,7 @@ export const npcDialogues = {
                 text: "Ah, a traveler from the hollow roads. Your eyes bear the mark of inquiry. I am Leylah — keeper of murmurs long forgotten. What knowledge do you crave?",
             },
             {
-                speaker: "MC",
+                speaker: "Main Character",
                 text: "Hector sent me. He said others might hold pieces of the Lord’s tale.",
             },
             {
@@ -69,7 +69,7 @@ export const npcDialogues = {
                 text: "So... another pilgrim dares the silence. What is it you would take from me?",
             },
             {
-                speaker: "MC",
+                speaker: "Main Character",
                 text: "I seek what remains of the Lord’s truth.",
             },
             {
@@ -82,7 +82,7 @@ export const npcDialogues = {
                 text: "Take it, and leave this place to its decay. The Lord’s name belongs to the dead — yet you, fool traveler, may awaken him once more.",
             },
             {
-                speaker: "MC",
+                speaker: "Main Character",
                 text: "Thank you, Louis. Even ashes remember the flame that birthed them.",
             },
         ],

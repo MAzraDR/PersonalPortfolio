@@ -6,6 +6,7 @@ import homeIcon from "../assets/HomeIcon.png";
 import DialogueBox from "./DialogueBox";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
 
 export default function MainDisplay({
 	mapWidth,
@@ -32,6 +33,17 @@ export default function MainDisplay({
 	useEffect(() => {
 		if (!activeNpc) return;
 
+		const npc = npcData.find((npc) => npc.name === activeNpc);
+		if (!npc) return;
+
+		const { distance } = calculateNpcMetrics(npc.xRatio, mapWidth, mcX);
+
+		if (distance > 100) {
+			setActiveNpc(null);
+			setIsVisible(false);
+			return;
+		}
+
 		const lines = npcDialogues[activeNpc]?.dialogue;
 
 		if (!lines) return;
@@ -42,7 +54,7 @@ export default function MainDisplay({
 			setIsCompleted(true);
 			setIsVisible(false);
 		}
-	}, [activeNpc, currentLine]);
+	}, [activeNpc, currentLine, mapWidth, mcX]);
 
 	const handleNext = () => {
 		if (!activeNpc || isCompleted) return;
@@ -102,7 +114,7 @@ export default function MainDisplay({
 				onClick={handleNext}
 				className="w-screen flex justify-center px-4 fixed top-10">
 				<AnimatePresence mode="wait">
-					{currentDialogue && !isCompleted && (
+					{currentDialogue && !isCompleted && isVisible && (
 						<motion.div
 							key={currentLine}
 							initial={{ opacity: 0, y: 20 }}

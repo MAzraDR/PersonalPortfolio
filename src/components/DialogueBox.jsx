@@ -15,15 +15,19 @@ export default function DialogueBox({
 
 		setDisplayedText("");
 		let i = 0;
+		let currentText = "";
 
 		clearInterval(intervalRef.current);
 		intervalRef.current = setInterval(() => {
-			setDisplayedText((prev) => prev + text[i]);
-			i++;
-			if (i >= text.length) {
+			if (i < text.length) {
+				currentText += text[i]; 
+				setDisplayedText(currentText); 
+				i++;
+			} else {
 				clearInterval(intervalRef.current);
 			}
 		}, speed);
+		
 
 		return () => clearInterval(intervalRef.current);
 	}, [text, isVisible, speed]);
@@ -36,9 +40,11 @@ export default function DialogueBox({
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 1, delay: 0 }}
 			className="">
-			<h6 className="leading-relaxed font-bold">{speaker}</h6>
+			<h6 className="leading-relaxed font-bold ">{speaker}</h6>
 			<hr />
-			<p className="leading-relaxed">{displayedText}</p>
+			<p className="leading-relaxed text-sm md:text-lg">
+				{displayedText}
+			</p>
 		</motion.div>
 	);
 }

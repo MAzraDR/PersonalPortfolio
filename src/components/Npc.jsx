@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
 
 export default function Npc({
 	name,
@@ -8,21 +9,20 @@ export default function Npc({
 	mcX,
 	onInteract,
 }) {
-	const npcX = xRatio * mapWidth; // posisi NPC berdasarkan persentase
-	const distance = Math.abs(mcX - npcX);
+	const { npcX, distance } = calculateNpcMetrics(xRatio, mapWidth, mcX);
 	const canInteract = distance < 100;
 	const mcIsLeft = mcX > npcX;
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
 			if (e.key === "e" || e.key === "E") {
-				if (canInteract) onInteract(name);
+				if (canInteract) onInteract(name, npcX, distance);
 			}
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [canInteract, distance, name, onInteract]);
+	}, [canInteract, distance, name, npcX, onInteract]);
 
 	return (
 		<div
