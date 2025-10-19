@@ -22,15 +22,18 @@ export default function MainDisplay({
 	const [isCompleted, setIsCompleted] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const [action, setAction] = useState("idle");
+	const [isDialogueActive, setIsDialogueActive] = useState(false);
+
 
 	const handleNpcInteract = (npcName) => {
 		setActiveNpc(npcName);
 		setCurrentLine(0);
 		setIsCompleted(false);
 		setIsVisible(true);
+		setIsDialogueActive(true);
 	};
 
-	useEffect(() => {
+	useEffect(() => {		
 		if (!activeNpc) return;
 
 		const npc = npcData.find((npc) => npc.name === activeNpc);
@@ -40,7 +43,7 @@ export default function MainDisplay({
 
 		if (distance > 100) {
 			setActiveNpc(null);
-			setIsVisible(false);
+			setIsVisible(false);			
 			return;
 		}
 
@@ -52,7 +55,7 @@ export default function MainDisplay({
 			setCurrentDialogue(lines[currentLine]);
 		} else {
 			setIsCompleted(true);
-			setIsVisible(false);
+			setIsVisible(false);			
 		}
 	}, [activeNpc, currentLine, mapWidth, mcX]);
 
@@ -65,6 +68,7 @@ export default function MainDisplay({
 			setIsCompleted(true);
 			setActiveNpc(null);
 			setAction("idle");
+			setIsDialogueActive(false);
 		}
 	};
 
@@ -96,6 +100,7 @@ export default function MainDisplay({
 				mapWidth={mapWidth}
 				action={action}
 				setAction={setAction}
+				isDialogueActive={isDialogueActive}
 			/>
 
 			{npcData.map((npc) => (

@@ -1,5 +1,5 @@
 {
-	"name": "portfolio",	
+	"name": "portfolio",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -17,6 +17,7 @@
 		"motion": "^12.23.22",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
+		"react-swipeable": "^7.0.2",
 		"tailwindcss": "^4.1.14"
 	},
 	"devDependencies": {

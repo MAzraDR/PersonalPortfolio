@@ -1,39 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 export default function useCharacterControls({
-	x,
 	setX,
 	setDirection,
 	setAction,
 	mapWidth,
+	isDialogueActive,
 }) {
+	const step = 7;
+	const maxRight = mapWidth - 128;
+
+	const moveLeft = useCallback(() => {
+		if (isDialogueActive) return;
+		setX((prev) => Math.max(0, Math.min(prev - step, maxRight)));
+		setDirection("left");
+		setAction("walk");
+	}, [isDialogueActive, setX, setDirection, setAction, maxRight]);
+
+	const moveRight = useCallback(() => {
+		if (isDialogueActive) return;
+		setX((prev) => Math.max(0, Math.min(prev + step, maxRight)));
+		setDirection("right");
+		setAction("walk");
+	}, [isDialogueActive, setX, setDirection, setAction, maxRight]);
+
+	const stop = useCallback(() => {
+		if (isDialogueActive) return;
+		setAction("idle");
+	}, [setAction, isDialogueActive]);
+
 	useEffect(() => {
 		const handleKeyDown = (e) => {
-			const step = 7;
-			let newX = x;
+			if (isDialogueActive) return;
 
 			switch (e.key.toLowerCase()) {
 				case "a":
-					newX = x - step;
-					setDirection("left");
-					setAction("walk");
+					moveLeft();
 					break;
 				case "d":
-					newX = x + step;
-					setDirection("right");
-					setAction("walk");
+					moveRight();
 					break;
 				default:
 					return;
 			}
-			
-			const maxRight = mapWidth - 128;
-			newX = Math.max(0, Math.min(newX, maxRight));
-			setX(newX);
 		};
 
 		const handleKeyUp = (e) => {
-			if (["a", "d"].includes(e.key.toLowerCase())) setAction("idle");
+			if (["a", "d"].includes(e.key.toLowerCase())) stop();
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
@@ -43,5 +56,6 @@ export default function useCharacterControls({
 			window.removeEventListener("keydown", handleKeyDown);
 			window.removeEventListener("keyup", handleKeyUp);
 		};
-	}, [x, mapWidth, setX, setDirection, setAction]);
+	}, [moveLeft, moveRight, stop, isDialogueActive]);
+	return { moveLeft, moveRight, stop };
 }
