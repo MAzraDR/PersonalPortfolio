@@ -35,7 +35,7 @@ export default function Npc({
 				src={sprite}
 				alt={name}
 				className={`w-32 h-32 object-contain ${
-					canInteract ? "brightness-110 scale-105" : ""
+					canInteract ? "brightness-110" : ""
 				}`}
 			/>
 			{canInteract && (

@@ -1,5 +1,4 @@
-import { useState, useRef, useMemo } from "react";
-import { throttle } from "lodash";
+import { useState, useRef, useEffect } from "react";
 import useCharacterControls from "../hooks/useCharacterControls";
 import useCameraFollow from "../hooks/useCameraFollow";
 import mainCharIdleGif from "../assets/characters/hat-man-idle.gif";
@@ -27,26 +26,60 @@ const MainCharacter = ({
 
 	useCameraFollow({ x, cameraX });
 
-	const throttledMoveLeft = useMemo(
-		() =>
-			throttle(() => moveLeft(), 80, { leading: true, trailing: false }),
-		[moveLeft]
-	);
+	const swipeIntervalRef = useRef(null);
+	const swipeDirRef = useRef(null);
 
-	const throttledMoveRight = useMemo(
-		() =>
-			throttle(() => moveRight(), 80, { leading: true, trailing: false }),
-		[moveRight]
-	);
+	const startSwipeLoop = (dir) => {
+		if (swipeIntervalRef.current && swipeDirRef.current === dir) return;
+
+		if (swipeIntervalRef.current) {
+			clearInterval(swipeIntervalRef.current);
+			swipeIntervalRef.current = null;
+		}
+
+		swipeIntervalRef.current = dir;
+
+		swipeIntervalRef.current = setInterval(() => {
+			if (dir === "Left") moveLeft();
+			if (dir === "Right") moveRight();
+		}, 30);
+	};
+
+	const stopSwipeLoop = () => {
+		if (swipeIntervalRef.current) {
+			clearInterval(swipeIntervalRef.current);
+			swipeIntervalRef.current = null;
+			swipeDirRef.current = null;
+		}
+		stop();
+	};
+
+	useEffect(() => {
+		return () => {
+			if (swipeIntervalRef.current)
+				clearInterval(swipeIntervalRef.current);
+		};
+	}, []);
 
 	const handlers = useSwipeable({
 		onSwiping: (eventData) => {
-			if (eventData.dir === "Left") throttledMoveLeft();
-			else if (eventData.dir === "Right") throttledMoveRight();
+			if (eventData.dir === "Left") {
+				startSwipeLoop("Left");
+			} else if (eventData.dir === "Right") {
+				startSwipeLoop("Right");
+			} else {
+				stopSwipeLoop();
+			}
 		},
-		onSwiped: () => stop(),
+		onSwiped: () => {
+			stopSwipeLoop();
+		},
+		onTap: () => {
+			stopSwipeLoop();
+		},
 		preventScrollOnSwipe: true,
 		trackTouch: true,
+		trackMouse: false,
 	});
 
 	return (
