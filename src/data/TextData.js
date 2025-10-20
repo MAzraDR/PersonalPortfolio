@@ -6,9 +6,9 @@ export const bookTitle = "The Introduction to the Lord of the Books".split("");
 
 export const menuText = {
     main: { id: "main", href: "#main", title: "Unfold the First Scroll", subTitle: "Begin your adventure" },
+    about: { id: "about", href: "#", title: "The Master's Chronicle", subTitle: "About Me" },
     projects: { id: "projects", href: "#", title: "Completed Quests", subTitle: "My Past Projects" },
     contact: { id: "contacts", href: "#", title: "The Oath and Seal", subTitle: "Contact Info" },
-    about: { id: "about", href: "#", title: "The Master's Chronicle", subTitle: "About Me" }
 }
 
 export const npcData = [
@@ -88,3 +88,9 @@ export const npcDialogues = {
         ],
     },
 };
+
+export const itemDescriptions = {
+    "Hector" : "A weathered tome given by Hector, containing fragmented tales of the Lord. Its pages whisper of forgotten deeds and lost glories.",
+    "Leylah" : "An ancient scroll bestowed by Leylah, chronicling past projects and endeavors. The ink has faded, but the stories within still resonate with purpose.",
+    "Louis" : "A sealed document handed down by Louis, bearing contact information. The seal symbolizes a bond of trust and the promise of future communication.",
+}
