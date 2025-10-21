@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useEffect } from "react";
-import { npcDialogues } from "./data/TextData";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -47,7 +46,7 @@ export default function App() {
 	};
 
 	const handleClick = () => {
-		document.body.style.overflow = "auto";		
+		document.body.style.overflow = "auto";
 		gsap.to(".main-display", {
 			duration: 0.8,
 			opacity: 0,
@@ -75,7 +74,7 @@ export default function App() {
 				gsap.set(".main-display", { opacity: 1 });
 			},
 		});
-	};	
+	};
 
 	return (
 		<div className="flex flex-col">
@@ -88,11 +87,11 @@ export default function App() {
 				className="h-screen main-display transition-opacity duration-700">
 				<MainDisplay
 					sectionRef={sectionRef}
-					mapWidth={mapWidth}					
+					mapWidth={mapWidth}
 					handleClick={handleClick}
 					showButton={!inMainMenu}
 					mcX={mcX}
-					setMcX={setMcX}										
+					setMcX={setMcX}
 				/>
 			</section>
 		</div>

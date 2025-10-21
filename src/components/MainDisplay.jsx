@@ -1,5 +1,5 @@
 import Npc from "./Npc";
-import { npcData, npcDialogues } from "../data/TextData";
+import { itemDescriptions, npcData, npcDialogues } from "../data/TextData";
 import MainCharacter from "./MainCharacter";
 import Button from "./Button";
 import homeIcon from "../assets/HomeIcon.png";
@@ -7,6 +7,7 @@ import DialogueBox from "./DialogueBox";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
+import ItemsContent from "./itemsContent";
 
 export default function MainDisplay({
 	mapWidth,
@@ -23,7 +24,8 @@ export default function MainDisplay({
 	const [isVisible, setIsVisible] = useState(false);
 	const [action, setAction] = useState("idle");
 	const [isDialogueActive, setIsDialogueActive] = useState(false);
-
+	const [itemContent, setItemContent] = useState(null);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const handleNpcInteract = (npcName) => {
 		setActiveNpc(npcName);
@@ -33,7 +35,7 @@ export default function MainDisplay({
 		setIsDialogueActive(true);
 	};
 
-	useEffect(() => {		
+	useEffect(() => {
 		if (!activeNpc) return;
 
 		const npc = npcData.find((npc) => npc.name === activeNpc);
@@ -43,7 +45,7 @@ export default function MainDisplay({
 
 		if (distance > 100) {
 			setActiveNpc(null);
-			setIsVisible(false);			
+			setIsVisible(false);
 			return;
 		}
 
@@ -55,22 +57,9 @@ export default function MainDisplay({
 			setCurrentDialogue(lines[currentLine]);
 		} else {
 			setIsCompleted(true);
-			setIsVisible(false);			
+			setIsVisible(false);
 		}
-	}, [activeNpc, currentLine, mapWidth, mcX]);
-
-	const handleNext = () => {
-		if (!activeNpc || isCompleted) return;
-		const totalLines = npcDialogues[activeNpc]?.dialogue?.length ?? 0;
-		if (currentLine < totalLines - 1) {
-			setCurrentLine((prev) => prev + 1);
-		} else {
-			setIsCompleted(true);
-			setActiveNpc(null);
-			setAction("idle");
-			setIsDialogueActive(false);
-		}
-	};
+	}, [activeNpc, currentLine, mapWidth, mcX, itemContent, isVisible]);
 
 	useEffect(() => {
 		if (isVisible) {
@@ -80,44 +69,82 @@ export default function MainDisplay({
 		}
 	}, [isVisible]);
 
+	useEffect(() => {
+		if (isOpen) {
+			setIsVisible(false);
+		} else {
+			setIsVisible(true);
+		}
+	}, [isOpen]);
+
+	const handleNext = () => {
+		if (!activeNpc || isCompleted) return;
+		const totalLines = npcDialogues[activeNpc]?.dialogue?.length ?? 0;
+		if (currentLine < totalLines - 1) {
+			setCurrentLine((prev) => prev + 1);
+
+			const nextLine = npcDialogues[activeNpc].dialogue[currentLine];
+			if (nextLine?.givesItem) {
+				setItemContent(itemDescriptions[activeNpc]);
+				setIsOpen(true);
+
+				if (isOpen === true) {
+					setIsVisible(false);
+				} else {
+					setIsVisible(true);
+				}
+			}
+		} else {
+			setIsCompleted(true);
+			setActiveNpc(null);
+			setAction("idle");
+			setIsDialogueActive(false);
+		}
+	};
+
 	return (
-		<div
-			ref={sectionRef}
-			className="relative h-screen bg-result bg-no-repeat bg-bottom bg-contain"
-			style={{ width: `${mapWidth}px` }}>
-			{showButton && (
-				<Button
-					onClick={handleClick}
-					src={homeIcon}
-					x={mcX}
-					showButton={showButton}
-				/>
-			)}
-
-			<MainCharacter
-				x={mcX}
-				setX={setMcX}
-				mapWidth={mapWidth}
-				action={action}
-				setAction={setAction}
-				isDialogueActive={isDialogueActive}
-			/>
-
-			{npcData.map((npc) => (
-				<Npc
-					key={npc.id}
-					name={npc.name}
-					sprite={npc.sprite}
-					xRatio={npc.xRatio}
-					mapWidth={mapWidth}
-					mcX={mcX}
-					onInteract={() => handleNpcInteract(npc.name)}
-				/>
-			))}
-
+		<>
 			<div
-				onClick={handleNext}
-				className="w-screen flex justify-center px-4 fixed top-10">
+				ref={sectionRef}
+				className={`relative h-screen bg-result bg-no-repeat bg-bottom bg-contain transition-all duration-300 ${
+					isOpen ? "brightness-90 pointer-events-none" : ""
+				}`}
+				style={{
+					width: `${mapWidth}px`,
+				}}>
+				{showButton && (
+					<Button
+						onClick={handleClick}
+						src={homeIcon}
+						x={mcX}
+						showButton={showButton}
+					/>
+				)}
+
+				<MainCharacter
+					x={mcX}
+					setX={setMcX}
+					mapWidth={mapWidth}
+					action={action}
+					setAction={setAction}
+					isDialogueActive={isDialogueActive}
+				/>
+
+				{npcData.map((npc) => (
+					<Npc
+						key={npc.id}
+						name={npc.name}
+						sprite={npc.sprite}
+						xRatio={npc.xRatio}
+						mapWidth={mapWidth}
+						mcX={mcX}
+						onInteract={() => handleNpcInteract(npc.name)}
+					/>
+				))}
+			</div>
+			<div
+				onClick={!isOpen ? handleNext : null}
+				className="w-screen flex justify-center px-4 fixed top-10 pointer-events-auto">
 				<AnimatePresence mode="wait">
 					{currentDialogue && !isCompleted && isVisible && (
 						<motion.div
@@ -140,6 +167,19 @@ export default function MainDisplay({
 					)}
 				</AnimatePresence>
 			</div>
-		</div>
+			{isOpen && (
+				<div className="fixed inset-0 z-60 flex justify-center items-center">
+					<div className="absolute inset-0 bg-black/10 backdrop-blur-xs" />
+					<div className="relative z-10 pointer-events-auto">
+						<ItemsContent
+							item={itemContent}
+							isOpen={isOpen}
+							closeDialog={() => setIsOpen(false)}
+							activeNpc={activeNpc}
+						/>
+					</div>
+				</div>
+			)}
+		</>
 	);
 }
