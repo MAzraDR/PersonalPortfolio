@@ -50,7 +50,9 @@ const ItemsContent = memo(function ItemsContent({
 								</p>
 							))}
 							<p className="text-sm md:text-base font-semibold italic text-center">
-								<span className="block font-light not-italic ">Motto :</span>
+								<span className="block font-light not-italic ">
+									Motto :
+								</span>
 								{item.motto}
 							</p>
 						</div>
@@ -62,7 +64,7 @@ const ItemsContent = memo(function ItemsContent({
 					<div>
 						<h3
 							id="dialog-title"
-							className="text-3xl font-bold text-center mb-10 italic">
+							className="text-3xl font-bold text-center mb-8 italic">
 							Completed Quests
 						</h3>
 						<h3 className="text-xl md:text-2xl font-semibold mb-2">

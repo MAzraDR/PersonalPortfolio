@@ -2,6 +2,10 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { bookTitle, menuText } from "../data/TextData";
 import { MenuButton } from "./MenuButton";
+import bookCoverLeft from "../assets/BookCoverLeft.png";
+import bookCoverRight from "../assets/BookCoverRight.png";
+import paperCoverLeft from "../assets/PaperCoverLeft.png";
+import paperCoverRight from "../assets/PaperCoverRight.png";
 
 export default function MainMenu({ handleScroll }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +29,7 @@ export default function MainMenu({ handleScroll }) {
 				}}>
 				<div className="relative">
 					<img
-						src="/src/assets/BookCoverLeft.png"
+						src={bookCoverLeft}
 						alt="Book Cover Left"
 						className="object-contain h-auto w-[42.5vw] md:w-[35vw] lg:w-[25vw] shadow-2xl"
 					/>
@@ -49,7 +53,7 @@ export default function MainMenu({ handleScroll }) {
 					</motion.div>
 				</div>
 				<motion.img
-					src="/src/assets/PaperCoverLeft.png"
+					src={paperCoverLeft}
 					alt="Paper Left"
 					className="absolute right-0 object-contain h-auto w-[97%] origin-right"
 					initial={{ opacity: 0 }}
@@ -64,15 +68,14 @@ export default function MainMenu({ handleScroll }) {
 
 			<div className="relative origin-left z-10 brightness-90">
 				<img
-					src="/src/assets/BookCoverRight.png"
+					src={bookCoverRight}
 					alt="Book Cover Right"
 					className="object-contain w-[42.5vw] md:w-[35vw] lg:w-[25vw] h-auto"
 				/>
 				<div
 					className="absolute top-0 left-0 object-contain w-[97%] h-full brightness-100"
 					style={{
-						backgroundImage:
-							"url('/src/assets/PaperCoverRight.png')",
+						backgroundImage: `url(${paperCoverRight})`,
 						backgroundRepeat: "no-repeat",
 						backgroundPosition: "left",
 						backgroundSize: "contain",
