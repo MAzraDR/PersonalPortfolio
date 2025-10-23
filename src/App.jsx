@@ -84,7 +84,7 @@ export default function App() {
 
 			<section
 				ref={sectionRef}
-				className="h-screen main-display transition-opacity duration-700">
+				className="main-display transition-opacity duration-700">
 				<MainDisplay
 					sectionRef={sectionRef}
 					mapWidth={mapWidth}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
+import useDeviceDetection from "../hooks/UseDeviceDetection";
 
 export default function Npc({
 	name,
@@ -7,26 +8,50 @@ export default function Npc({
 	xRatio,
 	mapWidth,
 	mcX,
+	isDialogueActive,
 	onInteract,
 }) {
 	const { npcX, distance } = calculateNpcMetrics(xRatio, mapWidth, mcX);
+
 	const canInteract = distance < 100;
 	const mcIsLeft = mcX > npcX;
+
+	const isMobile = useDeviceDetection();
+
+	const handleTouchStart = (e) => {
+		if (!canInteract || isDialogueActive) return;
+		if (isMobile === true) {
+			onInteract(name, npcX, distance);
+		}
+	};
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
 			if (e.key === "e" || e.key === "E") {
-				if (canInteract) onInteract(name, npcX, distance);
+				if (isMobile === false) {
+					if (canInteract) onInteract(name, npcX, distance);
+				}
 			}
 		};
 
 		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [canInteract, distance, name, npcX, onInteract]);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [
+		canInteract,
+		distance,
+		isDialogueActive,
+		isMobile,
+		name,
+		npcX,
+		onInteract,
+	]);
 
 	return (
 		<div
 			className="absolute bottom-5 transition-transform duration-100"
+			onTouchStart={isMobile ? (e) => handleTouchStart(e) : undefined}
 			style={{
 				left: `${npcX}px`,
 				transform: mcIsLeft ? "scaleX(1)" : "scaleX(-1)",
@@ -38,15 +63,24 @@ export default function Npc({
 					canInteract ? "brightness-110" : ""
 				}`}
 			/>
-			{canInteract && (
-				<div
-					className="absolute -top-8 left-1/2 -translate-x-1/2 text-white text-sm bg-black/70 px-2 py-1 rounded"
-					style={{
-						transform: mcIsLeft ? "scaleX(1)" : "scaleX(-1)",
-					}}>
-					Press E to talk
-				</div>
-			)}
+			{canInteract &&
+				(isMobile ? (
+					<div
+						className="absolute -top-15 left-1/2 -translate-x-1/2 text-white text-sm bg-black/70 px-2 py-1 rounded"
+						style={{
+							transform: mcIsLeft ? "scaleX(1)" : "scaleX(-1)",
+						}}>
+						Click NPC to talk
+					</div>
+				) : (
+					<div
+						className="absolute -top-10 left-1/2 -translate-x-1/2 text-white text-sm bg-black/70 px-2 py-1 rounded"
+						style={{
+							transform: mcIsLeft ? "scaleX(1)" : "scaleX(-1)",
+						}}>
+						Press E to talk
+					</div>
+				))}
 		</div>
 	);
 }

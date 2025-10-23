@@ -2,6 +2,7 @@ import Npc from "./Npc";
 import { itemDescriptions, npcData, npcDialogues } from "../data/TextData";
 import MainCharacter from "./MainCharacter";
 import Button from "./Button";
+import mainBg from "../assets/mainBg.png";
 import homeIcon from "../assets/HomeIcon.png";
 import DialogueBox from "./DialogueBox";
 import { useState, useEffect } from "react";
@@ -106,10 +107,11 @@ export default function MainDisplay({
 		<>
 			<div
 				ref={sectionRef}
-				className={`relative h-screen bg-result bg-no-repeat bg-bottom bg-contain transition-all duration-300 ${
+				className={`relative h-screen bg-no-repeat bg-top bg-cover transition-all duration-300 ${
 					isOpen ? "brightness-90 pointer-events-none" : ""
 				}`}
 				style={{
+					backgroundImage: `url(${mainBg})`,
 					width: `${mapWidth}px`,
 				}}>
 				{showButton && (
@@ -138,6 +140,7 @@ export default function MainDisplay({
 						xRatio={npc.xRatio}
 						mapWidth={mapWidth}
 						mcX={mcX}
+						isDialogueActive={isDialogueActive}
 						onInteract={() => handleNpcInteract(npc.name)}
 					/>
 				))}

@@ -1,16 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --background-image-result: url('/src/assets/result.png');  
-  --font-lora: "Lora", sans-serif;
-  --font-eb-garamond: "EB Garamond", sans-serif;
-  --font-felipa: "Felipa", sans-serif;
-}
-
-body {
-  overflow-x: hidden;
+	--background-image-result: url("/src/assets/result.png");
+	--font-lora: "Lora", sans-serif;
+	--font-eb-garamond: "EB Garamond", sans-serif;
+	--font-felipa: "Felipa", sans-serif;
 }
 
 ::-webkit-scrollbar {
-  display: none;
+	display: none;
 }

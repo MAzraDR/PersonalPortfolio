@@ -46,7 +46,7 @@ export default function MainMenu({ handleScroll }) {
 									delay: 1 + i * 0.05,
 									duration: 0.4,
 								}}
-								className="font-felipa text-[2.20rem] sm:text-5xl md:text-[3rem] lg:text-[3.85rem] text-[#743841] font-medium leading-tight tracking-wide">
+								className="font-felipa text-2xl md:text-5xl lg:text-5xl xl:text-6xl text-[#743841] font-medium leading-tight tracking-wide">
 								{char}
 							</motion.span>
 						))}

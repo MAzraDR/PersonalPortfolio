@@ -1,33 +1,68 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
+import { useSwipeable } from "react-swipeable";
 
 export default function useCharacterControls({
 	setX,
-	setDirection,
 	setAction,
 	mapWidth,
 	isDialogueActive,
 }) {
-	const step = 7;
+	const swipeStep = 4;
+	const keyboardStep = 6;
 	const maxRight = mapWidth - 128;
+	const [direction, setDirection] = useState("right");
+	const swipeDirRef = useRef(null);
+	const animationRef = useRef(null);
 
-	const moveLeft = useCallback(() => {
-		if (isDialogueActive) return;
-		setX((prev) => Math.max(0, Math.min(prev - step, maxRight)));
-		setDirection("left");
-		setAction("walk");
-	}, [isDialogueActive, setX, setDirection, setAction, maxRight]);
+	const moveLeft = useCallback(
+		(type = "keyboard") => {
+			if (isDialogueActive) return;
+			const step = type === "swipe" ? swipeStep : keyboardStep;
+			setX((prev) => Math.max(0, Math.min(prev - step, maxRight)));
+			setDirection("left");
+			setAction("walk");
+		},
+		[isDialogueActive, setX, setDirection, setAction, maxRight]
+	);
 
-	const moveRight = useCallback(() => {
-		if (isDialogueActive) return;
-		setX((prev) => Math.max(0, Math.min(prev + step, maxRight)));
-		setDirection("right");
-		setAction("walk");
-	}, [isDialogueActive, setX, setDirection, setAction, maxRight]);
+	const moveRight = useCallback(
+		(type = "keyboard") => {
+			if (isDialogueActive) return;
+			const step = type === "swipe" ? swipeStep : keyboardStep;
+			setX((prev) => Math.max(0, Math.min(prev + step, maxRight)));
+			setDirection("right");
+			setAction("walk");
+		},
+		[isDialogueActive, setX, setDirection, setAction, maxRight]
+	);
 
 	const stop = useCallback(() => {
 		if (isDialogueActive) return;
 		setAction("idle");
 	}, [setAction, isDialogueActive]);
+
+	const moveLoop = () => {
+		if (swipeDirRef.current === "Left") moveLeft("swipe");
+		if (swipeDirRef.current === "Right") moveRight("swipe");
+		animationRef.current = requestAnimationFrame(moveLoop);
+	};
+
+	const startSwipeLoop = (dir) => {
+		if (swipeDirRef.current === dir) return;
+		stopSwipeLoop();
+
+		swipeDirRef.current = dir;
+		animationRef.current = requestAnimationFrame(moveLoop);
+	};
+
+	const stopSwipeLoop = () => {
+		if (animationRef.current) {
+			cancelAnimationFrame(animationRef.current);
+			animationRef.current = null;
+		}
+		swipeDirRef.current = null;
+		stop();
+	};
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -57,5 +92,20 @@ export default function useCharacterControls({
 			window.removeEventListener("keyup", handleKeyUp);
 		};
 	}, [moveLeft, moveRight, stop, isDialogueActive]);
-	return { moveLeft, moveRight, stop };
+
+	const handlers = useSwipeable({
+		onSwiping: (eventData) => {
+			if (eventData.dir === "Left") startSwipeLoop("Left");
+			else if (eventData.dir === "Right") startSwipeLoop("Right");
+			else stopSwipeLoop();
+		},
+		delta: 100,
+		onSwiped: stopSwipeLoop,
+		onTap: stopSwipeLoop,
+		preventScrollOnSwipe: true,
+		trackTouch: true,
+		trackMouse: false,
+	});
+
+	return { direction, handlers };
 }
