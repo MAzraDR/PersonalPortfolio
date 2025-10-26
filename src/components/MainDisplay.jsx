@@ -9,9 +9,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
 import ItemsContent from "./itemsContent";
+import useMapWidth from "../hooks/useMapWidth";
+import useCameraFollow from "../hooks/useCameraFollow";
+import InfoMessage from "./InfoMessage";
 
 export default function MainDisplay({
-	mapWidth,
 	handleClick,
 	showButton,
 	mcX,
@@ -27,6 +29,8 @@ export default function MainDisplay({
 	const [isDialogueActive, setIsDialogueActive] = useState(false);
 	const [itemContent, setItemContent] = useState(null);
 	const [isOpen, setIsOpen] = useState(false);
+	const mapWidth = useMapWidth();
+	const cameraStyle = useCameraFollow({ x: mcX, mapWidth });
 
 	const handleNpcInteract = (npcName) => {
 		setActiveNpc(npcName);
@@ -107,22 +111,14 @@ export default function MainDisplay({
 		<>
 			<div
 				ref={sectionRef}
-				className={`relative h-screen bg-no-repeat bg-top bg-cover transition-all duration-300 ${
+				className={`relative h-dvh bg-no-repeat bg-top bg-cover transition-all duration-300 ${
 					isOpen ? "brightness-90 pointer-events-none" : ""
 				}`}
 				style={{
 					backgroundImage: `url(${mainBg})`,
 					width: `${mapWidth}px`,
+					...cameraStyle,
 				}}>
-				{showButton && (
-					<Button
-						onClick={handleClick}
-						src={homeIcon}
-						x={mcX}
-						showButton={showButton}
-					/>
-				)}
-
 				<MainCharacter
 					x={mcX}
 					setX={setMcX}
@@ -182,6 +178,17 @@ export default function MainDisplay({
 						/>
 					</div>
 				</div>
+			)}
+			{showButton && (
+				<>
+					<Button
+						onClick={handleClick}
+						src={homeIcon}
+						x={mcX}
+						showButton={showButton}
+					/>
+					<InfoMessage></InfoMessage>
+				</>
 			)}
 		</>
 	);

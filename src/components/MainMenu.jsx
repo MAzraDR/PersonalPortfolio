@@ -92,6 +92,7 @@ export default function MainMenu({ handleScroll }) {
 								onTouchStart={() =>handleScroll(item.id)}							
 							/>
 						))}
+						
 					</div>
 				</div>
 			</div>

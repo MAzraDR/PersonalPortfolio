@@ -16,7 +16,7 @@ export default function Button({ onClick, src, showButton }) {
 				scale: showButton ? 1 : 0.8,
 				pointerEvents: showButton ? "auto" : "none",
 			}}
-			transition={{ duration: 1.5, ease: ["easeOut"] }}
+			transition={{ duration: 1, ease: ["easeOut"], delay:1 }}
 			className="flex justify-center items-center top-3 left-3 fixed h-10 w-10 border-2 border-[#E9C49A] opacity-90 rounded-full">
 			<button
 				onClick={handleClick}

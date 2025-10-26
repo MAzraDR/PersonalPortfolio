@@ -11,8 +11,7 @@ const MainCharacter = ({
 	action,
 	setAction,
 	isDialogueActive,
-}) => {
-	const cameraX = useRef(0);
+}) => {	
 
 	const { direction, handlers } = useCharacterControls({
 		setX,
@@ -20,8 +19,7 @@ const MainCharacter = ({
 		mapWidth,
 		isDialogueActive,
 	});
-
-	useCameraFollow({ x, cameraX });
+	
 
 	return (
 		<div

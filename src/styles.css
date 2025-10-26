@@ -7,6 +7,14 @@
 	--font-felipa: "Felipa", sans-serif;
 }
 
+.main-display {
+  touch-action: none; /* prevent scroll but still detect touch */
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+
 ::-webkit-scrollbar {
 	display: none;
 }

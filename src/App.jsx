@@ -1,5 +1,4 @@
 import { useState } from "react";
-import useMapWidth from "./hooks/useMapWidth";
 import MainMenu from "./components/MainMenu";
 import MainDisplay from "./components/MainDisplay";
 import { useRef } from "react";
@@ -10,7 +9,6 @@ import { useEffect } from "react";
 gsap.registerPlugin(ScrollToPlugin);
 
 export default function App() {
-	const mapWidth = useMapWidth();
 	const sectionRef = useRef(null);
 	const [inMainMenu, setInMainMenu] = useState(true);
 	const [mcX, setMcX] = useState(100);
@@ -21,32 +19,32 @@ export default function App() {
 	}, [mcX]);
 
 	useEffect(() => {
-		document.body.style.overflowY = "hidden";
+		document.documentElement.style.overflowY = "hidden";		
 		if ("scrollRestoration" in history) {
 			history.scrollRestoration = "manual";
 		}
 
 		window.scrollTo(0, 0);
-		document.body.style.overflow = "hidden";
+		document.documentElement.style.overflow = "hidden";
 	}, []);
 
 	const handleScrollToMain = (id) => {
 		if (id === "main") {
-			document.body.style.overflowY = "auto";
+			document.documentElement.style.overflowY = "auto";
 			setInMainMenu(false);
 			gsap.to(window, {
 				duration: 1.2,
 				scrollTo: sectionRef.current,
 				ease: "power2.inOut",
 				onComplete: () => {
-					document.body.style.overflow = "hidden";
+					document.documentElement.style.overflow = "hidden";
 				},
 			});
 		}
 	};
 
 	const handleClick = () => {
-		document.body.style.overflow = "auto";
+		document.documentElement.style.overflow = "auto";
 		gsap.to(".main-display", {
 			duration: 0.8,
 			opacity: 0,
@@ -69,7 +67,7 @@ export default function App() {
 			scrollTo: { y: 0, autoKill: true },
 			ease: "power2.inOut",
 			onComplete: () => {
-				document.body.style.overflow = "hidden";
+				document.documentElement.style.overflow = "hidden";
 				setInMainMenu(true);
 				gsap.set(".main-display", { opacity: 1 });
 			},
@@ -86,8 +84,7 @@ export default function App() {
 				ref={sectionRef}
 				className="main-display transition-opacity duration-700">
 				<MainDisplay
-					sectionRef={sectionRef}
-					mapWidth={mapWidth}
+					sectionRef={sectionRef}					
 					handleClick={handleClick}
 					showButton={!inMainMenu}
 					mcX={mcX}

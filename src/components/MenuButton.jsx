@@ -1,8 +1,7 @@
 import { motion } from "motion/react";
 
 export function MenuButton({ id, href, title, subtitle, onClick, onTouchStart }) {
-	const handleClick = (e) => {
-		e.preventDefault();
+	const handleClick = (e) => {		
 		e.stopPropagation();
 
 		if (onClick) onClick(e);
@@ -11,8 +10,7 @@ export function MenuButton({ id, href, title, subtitle, onClick, onTouchStart })
 	return (
 		<motion.a
 			id={id}
-			onClick={handleClick}
-			onTouchStart={handleClick}
+			onPointerDown={handleClick}						
 			href={href}
 			whileTap={{ scale: 0.95 }}
 			transition={{ type: "spring", stiffness: 400, damping: 20 }}

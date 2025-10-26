@@ -99,7 +99,7 @@ export default function useCharacterControls({
 			else if (eventData.dir === "Right") startSwipeLoop("Right");
 			else stopSwipeLoop();
 		},
-		delta: 100,
+		delta: 50,
 		onSwiped: stopSwipeLoop,
 		onTap: stopSwipeLoop,
 		preventScrollOnSwipe: true,

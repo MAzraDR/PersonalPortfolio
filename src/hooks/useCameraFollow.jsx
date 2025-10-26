@@ -1,17 +1,28 @@
+import { useState } from "react";
 import { useEffect } from "react";
 
-export default function useCameraFollow({ x, cameraX }) {
+export default function useCameraFollow({ x, mapWidth }) {
+	const [cameraOffSet, setCameraOffset] = useState(0);
+
 	useEffect(() => {
-		let animationFrame;
+		let anim;
+		const screenWidth = window.innerWidth;
+		const target = -(x - screenWidth / 2 + 100);
 
-		const updateCamera = () => {
-			const targetCamera = x - window.innerWidth / 2;
-			cameraX.current += (targetCamera - cameraX.current) * 0.08;
-			window.scrollTo({ left: cameraX.current });
-			animationFrame = requestAnimationFrame(updateCamera);
+		const maxOffset = 0;
+		const minOffset = -(mapWidth - screenWidth);
+		const clampedTarget = Math.min(maxOffset, Math.max(target, minOffset));
+
+		const smoothFollow = () => {
+			setCameraOffset((prev) => prev + (clampedTarget - prev) * 0.1);
+			anim = requestAnimationFrame(smoothFollow);
 		};
-
-		updateCamera();
-		return () => cancelAnimationFrame(animationFrame);
-	}, [cameraX, x]);
+		anim = requestAnimationFrame(smoothFollow);
+		return () => cancelAnimationFrame(anim);
+	}, [x, mapWidth]);
+	return {
+		transform: `translateX(${cameraOffSet}px)`,
+		transition: "transform 0.1s linear",
+		willChange: "transform",
+	};
 }
