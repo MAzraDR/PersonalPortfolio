@@ -1,21 +1,11 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { mapWidthContext } from "../context/MapWidthContext";
 
-export default function useMapWidth() {
-	const [mapWidth, setMapWidth] = useState(3957); // default
+export function UseMapWidth() {
+	const context = useContext(mapWidthContext);
 
-	useEffect(() => {
-		const updateMapWidth = () => {
-			const width = window.innerWidth;
-			if (width >= 1536) setMapWidth(3957); // 2xl
-			else if (width >= 1280) setMapWidth(3229); // xl
-			else if (width >= 768) setMapWidth(3228); // md
-			else setMapWidth(3227); // sm
-		};
-
-		updateMapWidth();
-		window.addEventListener("resize", updateMapWidth);
-		return () => window.removeEventListener("resize", updateMapWidth);
-	}, []);
-
-	return mapWidth;
+	if (context === undefined) {
+		throw new Error("useMapWidth must be used within a MapWidthProvider");
+	}
+	return context;
 }

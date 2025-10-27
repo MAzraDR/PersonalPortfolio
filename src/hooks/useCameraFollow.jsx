@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { UseMapWidth } from "./UseMapWidth";
 
-export default function useCameraFollow({ x, mapWidth }) {
+export default function useCameraFollow({ mcX }) {
 	const [cameraOffSet, setCameraOffset] = useState(0);
+	const mapWidth = UseMapWidth();
 
 	useEffect(() => {
 		let anim;
 		const screenWidth = window.innerWidth;
-		const target = -(x - screenWidth / 2 + 100);
+		const target = -(mcX - screenWidth / 2 + 100);
 
 		const maxOffset = 0;
 		const minOffset = -(mapWidth - screenWidth);
@@ -19,7 +21,7 @@ export default function useCameraFollow({ x, mapWidth }) {
 		};
 		anim = requestAnimationFrame(smoothFollow);
 		return () => cancelAnimationFrame(anim);
-	}, [x, mapWidth]);
+	}, [mcX, mapWidth]);
 	return {
 		transform: `translateX(${cameraOffSet}px)`,
 		transition: "transform 0.1s linear",

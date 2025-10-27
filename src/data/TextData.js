@@ -1,7 +1,6 @@
 import hectorIdle from "../assets/characters/bearded-idle.gif";
 import leylahIdle from "../assets/characters/woman-idle.gif"
 import louisIdle from "../assets/characters/oldman-idle.gif"
-import { title } from "motion/react-client";
 
 export const bookTitle = "The Introduction to the Lord of the Books".split("");
 

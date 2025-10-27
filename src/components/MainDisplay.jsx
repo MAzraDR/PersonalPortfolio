@@ -1,17 +1,8 @@
-import Npc from "./Npc";
-import { itemDescriptions, npcData, npcDialogues } from "../data/TextData";
-import MainCharacter from "./MainCharacter";
-import Button from "./Button";
-import mainBg from "../assets/mainBg.png";
-import homeIcon from "../assets/HomeIcon.png";
-import DialogueBox from "./DialogueBox";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
-import ItemsContent from "./itemsContent";
-import useMapWidth from "../hooks/useMapWidth";
-import useCameraFollow from "../hooks/useCameraFollow";
-import InfoMessage from "./InfoMessage";
+import UseMainDisplayHooks from "../hooks/useMainDisplayHooks";
+import GameScene from "./GameScene";
+import DialogueLayer from "./DialogueLayer";
+import ItemPopupLayer from "./ItemPopupLayer";
+import OverlayUi from "./OverlayUI";
 
 export default function MainDisplay({
 	handleClick,
@@ -20,175 +11,51 @@ export default function MainDisplay({
 	setMcX,
 	sectionRef,
 }) {
-	const [activeNpc, setActiveNpc] = useState(null);
-	const [currentLine, setCurrentLine] = useState(0);
-	const [currentDialogue, setCurrentDialogue] = useState(null);
-	const [isCompleted, setIsCompleted] = useState(false);
-	const [isVisible, setIsVisible] = useState(false);
-	const [action, setAction] = useState("idle");
-	const [isDialogueActive, setIsDialogueActive] = useState(false);
-	const [itemContent, setItemContent] = useState(null);
-	const [isOpen, setIsOpen] = useState(false);
-	const mapWidth = useMapWidth();
-	const cameraStyle = useCameraFollow({ x: mcX, mapWidth });
-
-	const handleNpcInteract = (npcName) => {
-		setActiveNpc(npcName);
-		setCurrentLine(0);
-		setIsCompleted(false);
-		setIsVisible(true);
-		setIsDialogueActive(true);
-	};
-
-	useEffect(() => {
-		if (!activeNpc) return;
-
-		const npc = npcData.find((npc) => npc.name === activeNpc);
-		if (!npc) return;
-
-		const { distance } = calculateNpcMetrics(npc.xRatio, mapWidth, mcX);
-
-		if (distance > 100) {
-			setActiveNpc(null);
-			setIsVisible(false);
-			return;
-		}
-
-		const lines = npcDialogues[activeNpc]?.dialogue;
-
-		if (!lines) return;
-
-		if (currentLine < lines.length) {
-			setCurrentDialogue(lines[currentLine]);
-		} else {
-			setIsCompleted(true);
-			setIsVisible(false);
-		}
-	}, [activeNpc, currentLine, mapWidth, mcX, itemContent, isVisible]);
-
-	useEffect(() => {
-		if (isVisible) {
-			setAction("idle");
-		} else {
-			setAction("walk");
-		}
-	}, [isVisible]);
-
-	useEffect(() => {
-		if (isOpen) {
-			setIsVisible(false);
-		} else {
-			setIsVisible(true);
-		}
-	}, [isOpen]);
-
-	const handleNext = () => {
-		if (!activeNpc || isCompleted) return;
-		const totalLines = npcDialogues[activeNpc]?.dialogue?.length ?? 0;
-		if (currentLine < totalLines - 1) {
-			setCurrentLine((prev) => prev + 1);
-
-			const nextLine = npcDialogues[activeNpc].dialogue[currentLine];
-			if (nextLine?.givesItem) {
-				setItemContent(itemDescriptions[activeNpc]);
-				setIsOpen(true);
-
-				if (isOpen === true) {
-					setIsVisible(false);
-				} else {
-					setIsVisible(true);
-				}
-			}
-		} else {
-			setIsCompleted(true);
-			setActiveNpc(null);
-			setAction("idle");
-			setIsDialogueActive(false);
-		}
-	};
+	const {
+		cameraStyle,
+		activeNpc,
+		currentDialogue,
+		isDialogueVisible,
+		isDialogueCompleted,
+		isDialogueActive,
+		playerAction,
+		itemPopup,
+		setPlayerAction,
+		handleNpcInteract,
+		handleNextDialogue,
+		closeItemPopup,
+	} = UseMainDisplayHooks(mcX);
 
 	return (
 		<>
-			<div
-				ref={sectionRef}
-				className={`relative h-dvh bg-no-repeat bg-top bg-cover transition-all duration-300 ${
-					isOpen ? "brightness-90 pointer-events-none" : ""
-				}`}
-				style={{
-					backgroundImage: `url(${mainBg})`,
-					width: `${mapWidth}px`,
-					...cameraStyle,
-				}}>
-				<MainCharacter
-					x={mcX}
-					setX={setMcX}
-					mapWidth={mapWidth}
-					action={action}
-					setAction={setAction}
-					isDialogueActive={isDialogueActive}
-				/>
+			<GameScene
+				sectionRef={sectionRef}
+				cameraStyle={cameraStyle}
+				mcX={mcX}
+				setMcX={setMcX}
+				playerAction={playerAction}
+				setPlayerAction={setPlayerAction}
+				isDialogueActive={isDialogueActive}
+				itemPopup={itemPopup}
+				handleNpcInteract={handleNpcInteract}></GameScene>
 
-				{npcData.map((npc) => (
-					<Npc
-						key={npc.id}
-						name={npc.name}
-						sprite={npc.sprite}
-						xRatio={npc.xRatio}
-						mapWidth={mapWidth}
-						mcX={mcX}
-						isDialogueActive={isDialogueActive}
-						onInteract={() => handleNpcInteract(npc.name)}
-					/>
-				))}
-			</div>
-			<div
-				onClick={!isOpen ? handleNext : null}
-				className="w-screen flex justify-center px-4 fixed top-10 pointer-events-auto">
-				<AnimatePresence mode="wait">
-					{currentDialogue && !isCompleted && isVisible && (
-						<motion.div
-							key={currentLine}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -20 }}
-							transition={{ duration: 0.5 }}
-							className="bg-black/70 text-white text-lg px-6 py-5 rounded-2xl shadow-lg max-w-[70vw] lg:max-w-[50vw] w-fit text-center">
-							<DialogueBox
-								text={currentDialogue.text}
-								speaker={currentDialogue.speaker}
-								isVisible={isVisible}
-							/>
+			<DialogueLayer
+				itemPopup={itemPopup}
+				handleNextDialogue={handleNextDialogue}
+				currentDialogue={currentDialogue}
+				isDialogueCompleted={isDialogueCompleted}
+				isDialogueVisible={isDialogueVisible}></DialogueLayer>
 
-							<p className="text-sm opacity-50 mt-4 text-right">
-								Click to Continue
-							</p>
-						</motion.div>
-					)}
-				</AnimatePresence>
-			</div>
-			{isOpen && (
-				<div className="fixed inset-0 z-60 flex justify-center items-center">
-					<div className="absolute inset-0 bg-black/10 backdrop-blur-xs" />
-					<div className="relative z-10 pointer-events-auto">
-						<ItemsContent
-							item={itemContent}
-							isOpen={isOpen}
-							closeDialog={() => setIsOpen(false)}
-							activeNpc={activeNpc}
-						/>
-					</div>
-				</div>
-			)}
+			<ItemPopupLayer
+				itemPopup={itemPopup}
+				closeItemPopup={closeItemPopup}
+				activeNpc={activeNpc}></ItemPopupLayer>
+
 			{showButton && (
-				<>
-					<Button
-						onClick={handleClick}
-						src={homeIcon}
-						x={mcX}
-						showButton={showButton}
-					/>
-					<InfoMessage></InfoMessage>
-				</>
+				<OverlayUi
+					handleClick={handleClick}
+					mcX={mcX}
+					showButton={showButton}></OverlayUi>
 			)}
 		</>
 	);
