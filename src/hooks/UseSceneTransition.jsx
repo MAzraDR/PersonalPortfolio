@@ -9,7 +9,7 @@ export default function useSceneTransition() {
 	const sectionRef = useRef(null);
 	const [inMainMenu, setInMainMenu] = useState(true);
 	const [mcX, setMcX] = useState(100);
-    const mcXRef = useRef(mcX);
+	const mcXRef = useRef(mcX);
 
 	useEffect(() => {
 		mcXRef.current = mcX;
