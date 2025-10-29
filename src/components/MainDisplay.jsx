@@ -1,4 +1,4 @@
-import UseMainDisplayHooks from "../hooks/useMainDisplayHooks";
+import UseMainDisplayHooks from "../hooks/UseMainDisplayHooks";
 import GameScene from "./GameScene";
 import DialogueLayer from "./DialogueLayer";
 import ItemPopupLayer from "./ItemPopupLayer";
