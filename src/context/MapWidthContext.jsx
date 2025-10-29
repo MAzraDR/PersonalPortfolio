@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 
-export default function useMapWidth() {
+// eslint-disable-next-line react-refresh/only-export-components
+export const mapWidthContext = createContext();
+
+export function MapWidthProvider({ children }) {
 	const [mapWidth, setMapWidth] = useState(3957); // default
 
 	useEffect(() => {
@@ -17,5 +20,9 @@ export default function useMapWidth() {
 		return () => window.removeEventListener("resize", updateMapWidth);
 	}, []);
 
-	return mapWidth;
+	return (
+		<mapWidthContext.Provider value={mapWidth}>
+			{children}
+		</mapWidthContext.Provider>
+	);
 }

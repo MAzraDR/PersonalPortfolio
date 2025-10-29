@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
 import useDeviceDetection from "../hooks/UseDeviceDetection";
+import { UseMapWidth } from "../hooks/UseMapWidth";
 
 export default function Npc({
 	name,
 	sprite,
 	xRatio,
-	mapWidth,
 	mcX,
 	isDialogueActive,
 	onInteract,
 }) {
+	const mapWidth = UseMapWidth();
 	const { npcX, distance } = calculateNpcMetrics(xRatio, mapWidth, mcX);
 
 	const canInteract = distance < 100;

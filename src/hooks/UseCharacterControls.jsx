@@ -1,12 +1,13 @@
 import { useEffect, useCallback, useState, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
+import { UseMapWidth } from "./UseMapWidth";
 
 export default function useCharacterControls({
 	setX,
 	setAction,
-	mapWidth,
 	isDialogueActive,
 }) {
+	const mapWidth = UseMapWidth();
 	const swipeStep = 4;
 	const keyboardStep = 6;
 	const maxRight = mapWidth - 128;

@@ -89,7 +89,7 @@ export default function MainMenu({ handleScroll }) {
 								title={item.title}
 								subtitle={item.subTitle}
 								onClick={() => handleScroll(item.id)}	
-								onTouchStart={() =>handleScroll(item.id)}							
+								// onTouchStart={() =>handleScroll(item.id)}							
 							/>
 						))}
 						

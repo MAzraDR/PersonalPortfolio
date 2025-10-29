@@ -1,9 +1,9 @@
 import { motion } from "motion/react";
 
-export function MenuButton({ id, href, title, subtitle, onClick, onTouchStart }) {
+export function MenuButton({ id, href, title, subtitle, onClick }) {
 	const handleClick = (e) => {		
 		e.stopPropagation();
-
+	
 		if (onClick) onClick(e);
 	};
 
