@@ -2,7 +2,7 @@ import UseMainDisplayHooks from "../hooks/UseMainDisplayHooks";
 import GameScene from "./GameScene";
 import DialogueLayer from "./DialogueLayer";
 import ItemPopupLayer from "./ItemPopupLayer";
-import OverlayUi from "./OverlayUI";
+import OverlayUi from "./OverlayUi";
 
 export default function MainDisplay({
 	handleClick,
