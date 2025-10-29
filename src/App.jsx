@@ -11,7 +11,7 @@ export default function App() {
 		setMcX,
 		handleScrollToMain,
 		handleScrollToMenu,
-	} = useSceneTransition(() => {});
+	} = useSceneTransition();
 
 	return (
 		<div className="flex flex-col">
