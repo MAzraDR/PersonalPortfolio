@@ -1,7 +1,7 @@
 import MainMenu from "./components/MainMenu";
 import MainDisplay from "./components/MainDisplay";
 import { MapWidthProvider } from "./context/MapWidthContext";
-import UseSceneTransition from "./hooks/useSceneTransition";
+import useSceneTransition from "./hooks/useSceneTransition";
 
 export default function App() {
 	const {
@@ -11,7 +11,7 @@ export default function App() {
 		setMcX,
 		handleScrollToMain,
 		handleScrollToMenu,
-	} = UseSceneTransition(() => {});
+	} = useSceneTransition(() => {});
 
 	return (
 		<div className="flex flex-col">

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export default function UseSceneTransition() {
+export default function useSceneTransition() {
 	const sectionRef = useRef(null);
 	const [inMainMenu, setInMainMenu] = useState(true);
 	const [mcX, setMcX] = useState(100);
