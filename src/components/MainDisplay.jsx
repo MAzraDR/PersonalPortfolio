@@ -12,8 +12,7 @@ export default function MainDisplay({
 	sectionRef,
 }) {
 	const {
-		cameraStyle,
-		activeNpc,
+		cameraStyle,		
 		currentDialogue,
 		isDialogueVisible,
 		isDialogueCompleted,
@@ -22,8 +21,7 @@ export default function MainDisplay({
 		itemPopup,
 		setPlayerAction,
 		handleNpcInteract,
-		handleNextDialogue,
-		closeItemPopup,
+		handleNextDialogue,		
 	} = UseMainDisplayHooks(mcX);
 
 	return (
@@ -46,10 +44,7 @@ export default function MainDisplay({
 				isDialogueCompleted={isDialogueCompleted}
 				isDialogueVisible={isDialogueVisible}></DialogueLayer>
 
-			<ItemPopupLayer
-				itemPopup={itemPopup}
-				closeItemPopup={closeItemPopup}
-				activeNpc={activeNpc}></ItemPopupLayer>
+			<ItemPopupLayer></ItemPopupLayer>
 
 			{showButton && (
 				<OverlayUi

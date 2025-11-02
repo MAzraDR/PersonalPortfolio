@@ -66,6 +66,7 @@ export default function useCharacterControls({
 	};
 
 	useEffect(() => {
+		setAction("idle")		
 		const handleKeyDown = (e) => {
 			if (isDialogueActive) return;
 

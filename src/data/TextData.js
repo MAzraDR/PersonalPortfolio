@@ -5,10 +5,10 @@ import louisIdle from "../assets/characters/oldman-idle.gif"
 export const bookTitle = "The Introduction to the Lord of the Books".split("");
 
 export const menuText = {
-    main: { id: "main", href: "#main", title: "Unfold the First Scroll", subTitle: "Begin your adventure" },
-    about: { id: "about", href: "#", title: "The Master's Chronicle", subTitle: "About Me" },
-    projects: { id: "projects", href: "#", title: "Completed Quests", subTitle: "My Past Projects" },
-    contact: { id: "contacts", href: "#", title: "The Oath and Seal", subTitle: "Contact Info" },
+    main: { id: "main", href: "#main", title: "Unfold the First Scroll", subTitle: "Begin your adventure", linkedNpc: "#" },
+    about: { id: "about", href: "#", title: "The Master's Chronicle", subTitle: "About Me", linkedNpc: "Hector" },
+    projects: { id: "projects", href: "#", title: "Completed Quests", subTitle: "My Past Projects", linkedNpc: "Leylah" },
+    contact: { id: "contacts", href: "#", title: "The Oath and Seal", subTitle: "Contact Info", linkedNpc: "Louis" },
 }
 
 export const npcData = [

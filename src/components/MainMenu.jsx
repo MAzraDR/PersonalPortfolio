@@ -1,17 +1,43 @@
 import { motion } from "motion/react";
 import { useState } from "react";
-import { bookTitle, menuText } from "../data/TextData";
+import { bookTitle, itemDescriptions, menuText } from "../data/TextData";
 import { MenuButton } from "./MenuButton";
 import bookCoverLeft from "../assets/BookCoverLeft.png";
 import bookCoverRight from "../assets/BookCoverRight.png";
 import paperCoverLeft from "../assets/PaperCoverLeft.png";
 import paperCoverRight from "../assets/PaperCoverRight.png";
+import { useNpc } from "../context/NpcContext";
+import { useItemPopupContext } from "../context/ItemPopupContext";
+import { useEffect } from "react";
+import { useMenu } from "../context/MenuContext";
 
 export default function MainMenu({ handleScroll }) {
 	const [isOpen, setIsOpen] = useState(false);
+	const { setItemPopup } = useItemPopupContext();
+	const { activeNpc, setActiveNpc } = useNpc();
+	const { isMenu, setIsMenu } = useMenu();
 
 	const handleClickMenu = () => {
 		setIsOpen(true);
+	};
+
+	const handleClickMain = (item) => {
+		if (item.linkedNpc === "#") {
+			handleScroll(item.id);
+			setIsMenu(false);
+			setItemPopup({
+				isOpen: false,
+				content: null,
+			});
+		} else if (item.linkedNpc) {
+			setActiveNpc(item.linkedNpc);
+			if (activeNpc && isMenu) {
+				setItemPopup({
+					isOpen: true,
+					content: itemDescriptions[item.linkedNpc],
+				});
+			}
+		}
 	};
 
 	return (
@@ -88,11 +114,10 @@ export default function MainMenu({ handleScroll }) {
 								href={item.href}
 								title={item.title}
 								subtitle={item.subTitle}
-								onClick={() => handleScroll(item.id)}	
-								// onTouchStart={() =>handleScroll(item.id)}							
+								onClick={() => handleClickMain(item)}
+								// onTouchStart={() =>handleScroll(item.id)}
 							/>
 						))}
-						
 					</div>
 				</div>
 			</div>

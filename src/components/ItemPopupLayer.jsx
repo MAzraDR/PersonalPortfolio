@@ -1,10 +1,11 @@
+import { useItemPopupContext } from "../context/ItemPopupContext";
+import { useNpc } from "../context/NpcContext";
 import ItemsContent from "./ItemsContent";
 
-export default function ItemPopupLayer({
-	itemPopup,
-	closeItemPopup,
-	activeNpc,
-}) {
+export default function ItemPopupLayer() {
+	const { itemPopup, closeItemPopup } = useItemPopupContext();	
+	const {activeNpc, setActiveNpc} = useNpc()	
+
 	if (!itemPopup.isOpen) return null;
 	return (
 		<div className="fixed inset-0 z-60 flex justify-center items-center">

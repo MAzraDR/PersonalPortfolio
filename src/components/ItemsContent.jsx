@@ -7,9 +7,10 @@ const ItemsContent = memo(function ItemsContent({
 	closeDialog,
 	activeNpc,
 }) {
-	if (!item || !isOpen) return null;
+	if (!item || !isOpen) return null;	 
 
 	const renderContent = () => {
+		// switch (activeNpc.activeNpc) {
 		switch (activeNpc) {
 			case "Hector":
 				return (
