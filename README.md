@@ -1,14 +1,10 @@
-# 🌐 Personal Portfolio Website
+# Personal Portfolio Website
 
-An interactive and visually dynamic **personal portfolio website** built using **React (Vite)**, **GSAP**, and **Framer Motion**.  
-This site highlights creativity and technical ability through **smooth animations**, **interactive character movement**, and **responsive layouts**, providing a lively user experience both on desktop and mobile.
+This is my first personal portfolio as a junior front-end developer. I made this using React and TailwindCSS for learning projects, so the code is still a mess. I had the inspiration came from old pixel fantasy game menu i played as a child, and cause it's interesting, so why not? i guess at that time.
 
----
+The idea is for the user or MC in the web as a traveller that come to a town to learn about the lord (myself). So user can know about the lord from talking to NPC and get the item they give to you. Every each NPC give different things about me like my personal bio, my past projects, or how to contact me. 
 
-## 🎯 Overview
-
-This portfolio serves as a digital showcase for projects, design sensibility, and development skills as a **Front-end Developer**
-The concept moves beyond static portfolios — offering a playful, game-like style that reflects both technical and artistic identity.
+Even if you don't have time to talk to different NPC, you also can see the item at the main menu below the start adventure button.
 
 ---
 
@@ -24,55 +20,47 @@ The concept moves beyond static portfolios — offering a playful, game-like sty
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-### 🎮 Interactive Character Movement
+### Interactive Character Movement
 
 -   Move the main character horizontally using **keyboard keys (A/D)** or **mobile swipe gestures**.
 -   The camera smoothly follows the character’s position via a custom React hook (`useCameraFollow`) powered by GSAP.
 
-### 🎬 Smooth Scene Transitions
+### Smooth Scene Transitions
 
 -   **GSAP ScrollToPlugin** handles elegant transitions between sections, such as the main menu and content areas.
 -   Fade, zoom, and position animations give a cinematic feel to every navigation action.
 
-### 📱 Responsive Design
+### Responsive Design
 
 -   Fully optimized for both desktop and mobile devices.
 -   Tailwind CSS ensures adaptive scaling, fluid layouts, and a consistent visual hierarchy.
 
-### 💬 Animated Info Message
+### Animated Info Message
 
 -   Displays short hints such as _“Use swipe or press ‘A’ or ‘D’ to move”_ with delayed fade-in/out motion.
 -   Managed using **React state** and **AnimatePresence** for clean entrance and exit animations.
 
-### 🎥 Camera and Environment Control
+### Camera and Environment Control
 
 -   Custom `useCameraFollow` keeps the scene centered on the moving character.
 -   Adjustable smoothing factor for controlling how early or late the camera reacts to movement.
 -   Works dynamically with variable map widths and viewport sizes.
 
-### 🧠 Touch and Keyboard Integration
+### Touch and Keyboard Integration
 
 -   Unified event handling for both mobile (`onTouchStart`) and desktop (`onClick`, keyboard press).
 -   Includes dialogue and movement triggers for NPC interaction.
 
-### 🚀 Performance Optimized
+### Performance Optimized
 
 -   Built with **Vite** for fast reloads and minimal bundle size.
 -   Animations and scroll events are GPU-optimized to ensure smooth performance, even on low-end mobile devices.
 
 ---
 
-## 🧩 Development Notes
-
--   The **camera smoothing factor** in `useCameraFollow` can be tuned for responsiveness.
--   **Overflow locking** is handled dynamically through `document.documentElement.style.overflow` to prevent unwanted scrolling during animation transitions.
--   Touch event behavior should be tested on **real mobile devices** since browser emulators may not replicate all touch gestures accurately.
-
----
-
-## 👤 Author
+## Author
 
 **M. Azra Dwi Rizky**  
 Front-end Developer

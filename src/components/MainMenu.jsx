@@ -66,7 +66,7 @@ export default function MainMenu({ handleScroll }) {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{
 									opacity: isOpen ? 1 : 0,
-									y: isOpen ? 0 : 20,
+									y: isOpen ? 0 : 20,									
 								}}
 								transition={{
 									delay: 1 + i * 0.05,
