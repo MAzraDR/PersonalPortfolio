@@ -12,7 +12,7 @@ const MainCharacter = ({ x, setX, action, setAction, isDialogueActive }) => {
 	return (
 		<div
 			{...handlers}
-			className="absolute z-50 bottom-5 transition-transform duration-100"
+			className="absolute z-50 bottom-5 transition-transform duration-100 brightness-70"
 			style={{
 				left: `${x}px`,
 				transform: direction === "left" ? "scaleX(-1)" : "scaleX(1)",

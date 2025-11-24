@@ -51,7 +51,7 @@ export default function Npc({
 
 	return (
 		<div
-			className="absolute bottom-5 transition-transform duration-100"
+			className="absolute bottom-5 transition-transform duration-100 brightness-75"
 			onTouchStart={isMobile ? (e) => handleTouchStart(e) : undefined}
 			style={{
 				left: `${npcX}px`,

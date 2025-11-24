@@ -1,4 +1,4 @@
-import { itemDescriptions, npcDialogues } from "../data/TextData";
+import { itemDescriptions, npcDialogues } from "../utils/TextData";
 import { useState } from "react";
 import useCameraFollow from "../hooks/UseCameraFollow";
 import useNpcDialogue from "./useNpcDialogue";

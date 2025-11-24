@@ -2,11 +2,11 @@ import { useState } from "react";
 import { calculateNpcMetrics } from "../utils/calculateNpcMetrics";
 import { UseMapWidth } from "./UseMapWidth";
 import { useEffect } from "react";
-import { npcData } from "../data/TextData";
+import { npcData } from "../utils/TextData";
 
 export default function useNpcActive({ mcX, setIsDialogueVisible = {} }) {
 	const [activeNpc, setActiveNpc] = useState(null);
-	const mapWidth = UseMapWidth();		
+	const mapWidth = UseMapWidth();
 
 	useEffect(() => {
 		if (!activeNpc) return;

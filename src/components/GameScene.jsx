@@ -1,5 +1,5 @@
 import mainBg from "../assets/mainBg.png";
-import { npcData } from "../data/TextData";
+import { npcData } from "../utils/TextData";
 import Npc from "./Npc";
 import MainCharacter from "./MainCharacter";
 import { UseMapWidth } from "../hooks/UseMapWidth";

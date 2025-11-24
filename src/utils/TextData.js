@@ -2,13 +2,13 @@ import hectorIdle from "../assets/characters/bearded-idle.gif";
 import leylahIdle from "../assets/characters/woman-idle.gif"
 import louisIdle from "../assets/characters/oldman-idle.gif"
 
-export const bookTitle = "The Introduction to the Lord of the Books".split("");
+export const bookTitle = "Azra's Personal portfolio".split("");
 
 export const menuText = {
-    main: { id: "main", href: "#main", title: "Unfold the First Scroll", subTitle: "Begin your adventure", linkedNpc: "#" },
-    about: { id: "about", href: "#", title: "The Master's Chronicle", subTitle: "About Me", linkedNpc: "Hector" },
-    projects: { id: "projects", href: "#", title: "Completed Quests", subTitle: "My Past Projects", linkedNpc: "Leylah" },
-    contact: { id: "contacts", href: "#", title: "The Oath and Seal", subTitle: "Contact Info", linkedNpc: "Louis" },
+    main: { id: "main", href: "#main", title: "Begin your adventure", linkedNpc: "#" },
+    projects: { id: "projects", href: "#", title: "My Past Projects", linkedNpc: "Leylah" },
+    about: { id: "about", href: "#", title: "About Me", linkedNpc: "Hector" },
+    contact: { id: "contacts", href: "#", title: "Coming soon", linkedNpc: "Louis" },
 }
 
 export const npcData = [
@@ -21,16 +21,24 @@ export const itemDescriptions = {
     Hector: {
         name: "Muhammad Azra Dwi Rizky",
         title: "Front-end Developer",
-        bio: "Just a junior Front-end Developer who loves games and storytelling. Passionate about crafting immersive and stunning digital experiences through code and creativity.",
+        bio: "Junior Front-end Developer who loves games and storytelling. Passionate about crafting immersive and stunning digital experiences through code and creativity.",
         education: "Bachelor's Degree in Computer Science, UIN Maulana Malik Ibrahim Malang, 2025",
-        techinalSkills: [
-            "Proficient in: HTML, CSS, JavaScript, React, Tailwind CSS",
-        ],
+        techinalSkills: {
+            HTML: "HTML",
+            CSS: "CSS",
+            JS: "JavaScript",
+            React: "React",
+            tailwindcss: "Tailwind CSS",
+        },
         intersts: [
             "Avid gamer, drawing inspiration from games to create immersive user experiences.",
             "Enjoys reading long-form fantasy novels and exploring depth of the lore."
         ],
-        motto: "Just Get Good",
+        contactsInfo: {
+            github: "https://github.com/MAzraDR/",
+            linkedln: "https://www.linkedin.com/in/muhammad-azra-dwi-rizky-b689892b8/",
+            email: "mazradwir@gmail.com"
+        },
     },
     Leylah: {
         Name: "Projects Done",
@@ -39,13 +47,11 @@ export const itemDescriptions = {
         ],
     },
     Louis: {
-        contactsInfo: {
-            github: "https://github.com/MAzraDR/PersonalPortfolio",
-            linkedin: "https://www.linkedin.com/in/muhammad-azra-dwi-rizky-b689892b8/",
-            email: "mazradwir@gmail.com"
-        },
+        Name: "-",
     }
 }
+
+
 
 export const npcDialogues = {
     "Hector": {

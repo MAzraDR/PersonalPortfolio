@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import { motion } from "motion/react";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { getSkillIcon } from "../utils/getIcon";
 
 const ItemsContent = memo(function ItemsContent({
 	item,
@@ -7,56 +9,105 @@ const ItemsContent = memo(function ItemsContent({
 	closeDialog,
 	activeNpc,
 }) {
-	if (!item || !isOpen) return null;	 
+	if (!item || !isOpen) return null;
 
 	const renderContent = () => {
-		// switch (activeNpc.activeNpc) {
 		switch (activeNpc) {
 			case "Hector":
 				return (
 					<div>
-						<h3
-							id="dialog-title"
-							className="text-3xl font-bold text-center mb-10 italic">
-							The Master's Chronicle
-						</h3>
-						<h3 className="text-sm md:text-lg lg:text-xl font-medium">
-							{item.title}
-						</h3>
-						<h3 className="text-xl md:text-3xl lg:text-4xl font-bold text-white">
-							{item.name}
-						</h3>
+						<header className="text-center mb-10">
+							<h3
+								id="dialog-title"
+								className="text-3xl font-bold italic">
+								The Master's Chronicle
+							</h3>
+						</header>
 
-						<div className="flex flex-col gap-5 my-4">
+						<section className="mb-6">
+							<h4 className="text-sm md:text-lg lg:text-xl font-medium italic">
+								{item.title}
+							</h4>
+							<h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-white">
+								{item.name}
+							</h2>
+						</section>
+
+						<section className="flex flex-col gap-5 my-4">
 							<p className="text-base md:text-base lg:text-lg">
 								{item.bio}
 							</p>
 							<p className="text-sm md:text-base font-light">
 								{item.education}
 							</p>
-							<ul>
-								{item.techinalSkills?.map((skill, index) => (
-									<li
-										key={index}
-										className="text-sm md:text-base">
-										{skill}
-									</li>
-								))}
-							</ul>
-							{item.interests?.map((interest, i) => (
-								<p
-									key={i}
-									className="text-sm md:text-base font-light">
-									{interest}
-								</p>
-							))}
-							<p className="text-sm md:text-base font-semibold italic text-center">
-								<span className="block font-light not-italic ">
-									Motto :
-								</span>
-								{item.motto}
+
+							{item.techinalSkills && (
+								<div>
+									<h5 className="text-sm md:text-base font-semibold mb-3">
+										Proficient in:
+									</h5>
+									<ul className="grid grid-cols-2 gap-2">
+										{Object.entries(
+											item.techinalSkills
+										).map(([key, value], index) => (
+											<li
+												key={index}
+												className="flex items-center gap-2 text-sm md:text-base">
+												{getSkillIcon(key)} {value}
+											</li>
+										))}
+									</ul>
+								</div>
+							)}
+
+							{item.interests?.length > 0 && (
+								<div>
+									<h5 className="text-sm md:text-base font-semibold">
+										Interests
+									</h5>
+									{item.interests.map((interest, i) => (
+										<p
+											key={i}
+											className="text-sm md:text-base font-light">
+											{interest}
+										</p>
+									))}
+								</div>
+							)}
+						</section>
+
+						<footer className="text-center mt-6">
+							<p className="text-sm md:text-base font-semibold italic">
+								Contact Information
 							</p>
-						</div>
+							<div className="flex justify-center gap-4 mt-4">
+								{item.contactsInfo?.github && (
+									<a
+										href={item.contactsInfo.github}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="flex items-center gap-2 text-[#B69779] hover:text-white">
+										<FaGithub /> GitHub
+									</a>
+								)}
+								{item.contactsInfo?.linkedln && (
+									<a
+										href={item.contactsInfo.linkedln}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="flex items-center gap-2 text-[#B69779] hover:text-white">
+										<FaLinkedin /> LinkedIn
+									</a>
+								)}
+								{item.contactsInfo?.email && (
+									<a
+										href={`mailto:${item.contactsInfo.email}`}
+										className="flex items-center gap-2 text-[#B69779] hover:text-white">
+										<FaEnvelope /> Email
+									</a>
+								)}
+							</div>
+						</footer>
 					</div>
 				);
 
@@ -88,27 +139,11 @@ const ItemsContent = memo(function ItemsContent({
 					<div>
 						<h3
 							id="dialog-title"
-							className="text-3xl font-bold text-center mb-10 italic">
+							className="text-3xl font-bold text-center  italic">
 							The Oath and Seal
 						</h3>
-						<div className="flex flex-col gap-3 text-center">
-							<a
-								href={item.contactsInfo?.github}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="underline text-[#B69779] hover:text-white">
-								GitHub
-							</a>
-							<a
-								href={item.contactsInfo?.linkedin}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="underline text-[#B69779] hover:text-white">
-								LinkedIn
-							</a>
-							<p className="text-sm md:text-base">
-								{item.contactsInfo?.email}
-							</p>
+						<div className="flex flex-col gap-3 text-center mt-5">
+							<p> {item.Name}</p>
 						</div>
 					</div>
 				);
